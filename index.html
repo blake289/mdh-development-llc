@@ -54,7 +54,7 @@
 
             --text-hero: clamp(52px, 8vw, 96px);
             --text-h1: clamp(36px, 5vw, 64px);
-            --text-h2: clamp(32px, 4.5vw, 56px);
+            --text-h2: clamp(40px, 6.5vw, 84px);
             --text-h3: clamp(26px, 3.5vw, 38px);
             --text-body-lg: clamp(18px, 1.6vw, 22px);
             --text-body: clamp(16px, 1.4vw, 19px);
@@ -638,6 +638,25 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: rgba(255, 255, 255, 0.7);
+        }
+
+        .trust-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .trust-img {
+            max-height: 48px;
+            width: auto;
+            opacity: 0.8;
+            filter: grayscale(100%) brightness(200%);
+            transition: opacity 0.3s ease, filter 0.3s ease;
+        }
+
+        .trust-img:hover {
+            opacity: 1;
+            filter: grayscale(0%) brightness(100%);
         }
 
         /* =========================================================================
@@ -1483,7 +1502,10 @@
         <div class="container">
             <div class="stats-grid">
                 <div class="stat-item">
-                    <div class="stat-number js-count" data-target="25">0</div>
+                    <div style="display:flex; justify-content:center; align-items:flex-end;">
+                        <div class="stat-number js-count" data-target="25">0</div><span
+                            style="font-size: var(--text-h2); font-weight: 600; font-family:var(--font-display); line-height:1.2; margin-bottom: 8px;">+</span>
+                    </div>
                     <div class="stat-label">Years Experience</div>
                 </div>
                 <div class="stat-item">
@@ -1508,8 +1530,10 @@
         <div class="container">
             <span class="trust-label">Strategic Growth Partner & Proudly Affiliated With</span>
             <div class="trust-logos">
-                <div class="trust-logo">NAI Excel</div>
-                <div class="trust-logo">NAI Premier</div>
+                <div class="trust-logo"><img src="MDH Development LLC/nai-excel-logo.png" alt="NAI Excel"
+                        class="trust-img"></div>
+                <div class="trust-logo"><img src="MDH Development LLC/nai-premier-logo.png" alt="NAI Premier"
+                        class="trust-img"></div>
             </div>
         </div>
     </div>
@@ -1530,7 +1554,7 @@
                         led by Marlon Hill. Specializing in ground-up retail centers, master-planned mixed-use
                         communities, and hospitality projects across the Wasatch Front and rural Utah growth corridors.
                     </p>
-                    <p class="about-text-anim">We have built a portfolio of 20+ projects spanning shopping centers,
+                    <p class="about-text-anim">We have built a portfolio of 45+ projects spanning shopping centers,
                         restaurant pads, office space, auto service facilities, and hotel developments.</p>
                 </div>
                 <div class="about-text-anim" style="margin-top: var(--space-md);">
@@ -1776,8 +1800,10 @@
                 <div class="footer-col">
                     <h4>Affiliations</h4>
                     <ul>
-                        <li>NAI Excel</li>
-                        <li>NAI Premier</li>
+                        <li><img src="MDH Development LLC/nai-excel-logo.png" alt="NAI Excel" class="trust-img"
+                                style="max-height: 30px; margin-bottom: 8px;"></li>
+                        <li><img src="MDH Development LLC/nai-premier-logo.png" alt="NAI Premier" class="trust-img"
+                                style="max-height: 30px; margin-bottom: 8px;"></li>
                     </ul>
                 </div>
             </div>

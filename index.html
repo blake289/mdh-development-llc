@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDH Development LLC | Commercial Real Estate</title>
+    <meta name="description"
+        content="MDH Development LLC is a Utah-based commercial real estate development firm led by Marlon Hill, specializing in retail, master-planned communities, and hospitality.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Preload Hero Image -->
+    <link rel="preload" href="MDH Development LLC/Santa Clara.JPG" as="image">
+
+    <style>
+        /* =========================================================================
+           DESIGN SYSTEM (TOKENS)
+           ========================================================================= */
+        :root {
+            /* Colors */
+            --color-primary: #1F2937;
+            /* Charcoal/Navy */
+            --color-accent: #C31E27;
+            /* Muted Gold */
+            --color-bg: #FAFAF8;
+            /* Warm White */
+            --color-surface: #F2F1EE;
+            /* Light Gray/Cream */
+            --color-text: #1A1917;
+            /* Dark Text */
+            --color-text-muted: #6B6860;
+            /* Muted Text */
+            --color-border: #E5E3DF;
+            /* Border Color */
+            --color-white: #FFFFFF;
+
+            /* Typography */
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+            --text-hero: clamp(52px, 8vw, 96px);
+            --text-h1: clamp(36px, 5vw, 64px);
+            --text-h2: clamp(32px, 4.5vw, 56px);
+            --text-h3: clamp(26px, 3.5vw, 38px);
+            --text-body-lg: clamp(18px, 1.6vw, 22px);
+            --text-body: clamp(16px, 1.4vw, 19px);
+            --text-label: 13px;
+
+            /* Spacing */
+            --space-xs: 8px;
+            --space-sm: 16px;
+            --space-md: 32px;
+            --space-lg: 64px;
+            --space-xl: 96px;
+            --space-2xl: 128px;
+            --space-3xl: 192px;
+
+            /* Constraints */
+            --max-width: 1440px;
+            --nav-height: 80px;
+        }
+
+        /* =========================================================================
+           GLOBAL RESETS
+           ========================================================================= */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: var(--font-display);
+            font-weight: 500;
+            line-height: 1.2;
+            color: var(--color-primary);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Utility Classes */
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+        }
+
+        .section-pad {
+            padding: var(--space-xl) 0;
+        }
+
+        .eyebrow {
+            font-family: var(--font-mono);
+            font-size: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-accent);
+            display: block;
+            margin-bottom: var(--space-sm);
+        }
+
+        /* =========================================================================
+           COMPONENTS
+           ========================================================================= */
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+
+        .btn-outline-light {
+            border-color: rgba(255, 255, 255, 0.4);
+            color: var(--color-white);
+            background: transparent;
+        }
+
+        .btn-outline-light:hover {
+            border-color: var(--color-white);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-filled-dark {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-filled-dark:hover {
+            background-color: #000;
+        }
+
+        .btn-filled-light {
+            background-color: var(--color-white);
+            color: var(--color-primary);
+        }
+
+        .btn-filled-light:hover {
+            background-color: var(--color-surface);
+        }
+
+        .btn-outline-dark {
+            border-color: rgba(0, 0, 0, 0.2);
+            color: var(--color-primary);
+            background: transparent;
+        }
+
+        .btn-outline-dark:hover {
+            border-color: var(--color-primary);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--color-white);
+            padding: var(--space-md);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        /* =========================================================================
+           1. NAVIGATION
+           ========================================================================= */
+        .nav-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 1000;
+            transition: background 0.3s ease, border-bottom 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .nav-wrapper.scrolled {
+            background-color: var(--color-bg);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--color-white);
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 1001;
+            /* Above mobile menu */
+        }
+
+        .nav-wrapper.scrolled .logo {
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-white);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-wrapper.scrolled .nav-link {
+            color: var(--color-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: currentColor;
+            transition: width 0.2s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Nav CTA transition */
+        .nav-cta {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: var(--color-white);
+            padding: 10px 20px;
+        }
+
+        .nav-wrapper.scrolled .nav-cta {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: var(--color-white);
+            transition: all 0.3s ease;
+        }
+
+        .nav-wrapper.scrolled .hamburger span {
+            background-color: var(--color-primary);
+        }
+
+        .hamburger.active span {
+            background-color: var(--color-primary);
+            /* Dark text on open menu */
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--color-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 1000;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mobile-nav-links {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .mobile-nav-link {
+            font-family: var(--font-display);
+            font-size: var(--text-h2);
+            color: var(--color-primary);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .mobile-menu.active .mobile-nav-link {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================================================
+           2. HERO
+           ========================================================================= */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            /* Align content to bottom */
+            padding-bottom: var(--space-2xl);
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            transform: scale(1.0);
+            will-change: transform;
+            /* Ken Burns animation applied in JS or via pure CSS below */
+            animation: kenBurns 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes kenBurns {
+            0% {
+                transform: scale(1.0);
+            }
+
+            100% {
+                transform: scale(1.08);
+            }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            color: var(--color-white);
+        }
+
+        .hero-title {
+            font-size: var(--text-hero);
+            margin-bottom: var(--space-xs);
+            color: var(--color-white);
+            opacity: 0;
+            transform: translateY(40px);
+            will-change: transform, opacity;
+            /* Entrance animated via JS */
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: var(--text-body-lg);
+            font-weight: 300;
+            max-width: 600px;
+            margin-bottom: var(--space-md);
+            opacity: 0;
+            transform: translateY(40px);
+            will-change: transform, opacity;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .hero-cta {
+            opacity: 0;
+            transform: scale(0.94);
+            will-change: transform, opacity;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-md);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #fff;
+            animation: scrolldown 2s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+        }
+
+        @keyframes scrolldown {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(200%);
+            }
+        }
+
+        /* =========================================================================
+           3. STATS BAR
+           ========================================================================= */
+        .stats {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            padding: var(--space-lg) 0;
+            opacity: 0;
+            transform: translateY(20px);
+            will-change: opacity, transform;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .stats.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            /* For borders */
+            background-color: rgba(255, 255, 255, 0.1);
+            /* Divider color */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            background-color: var(--color-primary);
+            padding: var(--space-md);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: clamp(48px, 6vw, 84px);
+            color: var(--color-accent);
+            line-height: 1;
+            margin-bottom: var(--space-xs);
+        }
+
+        .stat-label {
+            font-family: var(--font-mono);
+            font-size: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* =========================================================================
+           4. PHILOSOPHY / ABOUT TEASER
+           ========================================================================= */
+        .about-teaser {
+            background-color: var(--color-bg);
+            overflow: hidden;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 80vh;
+        }
+
+        .about-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            clip-path: inset(0 100% 0 0);
+            /* Entrance anim */
+            transition: clip-path 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+            /* Parallax applied in JS */
+        }
+
+        .about-image.is-visible img {
+            clip-path: inset(0 0% 0 0);
+        }
+
+        .about-content {
+            padding: var(--space-2xl) var(--space-xl);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-headline {
+            font-size: var(--text-h2);
+            margin-bottom: var(--space-md);
+        }
+
+        .about-body p {
+            margin-bottom: var(--space-sm);
+            color: var(--color-text-muted);
+            font-size: var(--text-body-lg);
+        }
+
+        .about-text-anim {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        /* JS adds .is-visible and transition delays */
+
+        /* =========================================================================
+           5. SERVICES
+           ========================================================================= */
+        .services {
+            background-color: var(--color-surface);
+            text-align: center;
+        }
+
+        .services-header {
+            margin-bottom: var(--space-xl);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+        }
+
+        .service-card {
+            text-align: left;
+            opacity: 0;
+            transform: scale(0.96);
+            transition: all 0.6s ease;
+        }
+
+        .service-card.is-visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: var(--space-md);
+            stroke: var(--color-accent);
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .service-title {
+            font-size: var(--text-h3);
+            margin-bottom: var(--space-xs);
+        }
+
+        .service-desc {
+            color: var(--color-text-muted);
+        }
+
+        /* =========================================================================
+           6. FEATURED PROPERTIES
+           ========================================================================= */
+        .portfolio {
+            background-color: var(--color-bg);
+        }
+
+        .portfolio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: var(--space-xl);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+
+        .portfolio-card {
+            position: relative;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            background: #eee;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .portfolio-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .portfolio-card:hover .portfolio-img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: var(--space-xl) var(--space-md) var(--space-md);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 80%, rgba(0, 0, 0, 0) 100%);
+            color: var(--color-white);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            transition: background 0.3s ease;
+        }
+
+        .portfolio-card:hover .portfolio-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.98) 0%, rgba(0, 0, 0, 0.8) 80%, rgba(0, 0, 0, 0.2) 100%);
+        }
+
+        .portfolio-title {
+            font-size: var(--text-h3);
+            margin-bottom: 4px;
+            color: var(--color-white);
+        }
+
+        .portfolio-meta {
+            font-family: var(--font-mono);
+            font-size: var(--text-label);
+            color: rgba(255, 255, 255, 0.85);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+            display: inline-block;
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 2px;
+        }
+
+        .portfolio-details {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.35s ease;
+        }
+
+        .portfolio-card:hover .portfolio-details {
+            max-height: 100px;
+            opacity: 1;
+            margin-top: var(--space-xs);
+        }
+
+        /* Portfolio Project specific grid styles (using full width for Ephraim) */
+        .portfolio-card.full {
+            grid-column: 1 / -1;
+            aspect-ratio: 21/9;
+        }
+
+        /* =========================================================================
+           8. TEAM
+           ========================================================================= */
+        .team {
+            background-color: var(--color-surface);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+        }
+
+        .team-card {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.6s ease;
+        }
+
+        .team-card.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .team-img-wrapper {
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: var(--space-sm);
+            background: #e0deda;
+        }
+
+        .team-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .team-card:hover .team-img {
+            transform: scale(1.05);
+        }
+
+        .team-bio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(31, 41, 55, 0.95);
+            color: var(--color-white);
+            padding: var(--space-md);
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            align-items: center;
+        }
+
+        .team-card:hover .team-bio-overlay {
+            transform: translateY(0%);
+        }
+
+        .team-name {
+            font-size: var(--text-h3);
+            margin-bottom: 2px;
+        }
+
+        .team-title {
+            color: var(--color-text-muted);
+            font-size: var(--text-label);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* =========================================================================
+           10. CONTACT / CTA
+           ========================================================================= */
+        .cta-section {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Optional moody bg image */
+        .cta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+            mix-blend-mode: multiply;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cta-headline {
+            font-size: var(--text-hero);
+            margin-bottom: var(--space-md);
+            color: var(--color-white);
+            overflow: hidden;
+            /* For word anim */
+        }
+
+        .cta-headline .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .cta-headline.is-visible .word {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-info {
+            font-family: var(--font-body);
+            font-size: var(--text-body-lg);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: var(--space-lg);
+        }
+
+        .cta-info a {
+            color: var(--color-accent);
+            text-decoration: underline;
+            text-decoration-color: transparent;
+            transition: text-decoration-color 0.3s ease;
+        }
+
+        .cta-info a:hover {
+            text-decoration-color: var(--color-accent);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-sm);
+            justify-content: center;
+        }
+
+        /* =========================================================================
+           11. FOOTER
+           ========================================================================= */
+        .footer {
+            background-color: #121820;
+            /* Darker than primary */
+            color: rgba(255, 255, 255, 0.7);
+            padding: var(--space-lg) 0 var(--space-md);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: var(--space-xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--color-white);
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
+
+        .footer-logo span {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--color-accent);
+            letter-spacing: 0.15em;
+            margin-top: 4px;
+        }
+
+        .footer-col h4 {
+            color: var(--color-white);
+            font-family: var(--font-body);
+            font-size: var(--text-label);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-col ul li {
+            margin-bottom: var(--space-xs);
+        }
+
+        .footer-col a:hover {
+            color: var(--color-accent);
+        }
+
+        .footer-bottom {
+            padding-top: var(--space-md);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        /* =========================================================================
+           RESPONSIVE
+           ========================================================================= */
+        @media (max-width: 1199px) {
+
+            /* Tablet */
+            .portfolio-grid,
+            .about-grid {
+                gap: var(--space-sm);
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            /* Mobile */
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                height: 300px;
+            }
+
+            .about-content {
+                padding: var(--space-lg) var(--space-md);
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: var(--space-sm);
+                text-align: center;
+            }
+        }
+
+        /* Accessibility: Reduces Motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* =========================================================================
+           12. GALLERY MODAL
+           ========================================================================= */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .gallery-close {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .gallery-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 4px;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 50px;
+            cursor: pointer;
+            padding: var(--space-sm);
+            user-select: none;
+            z-index: 10;
+        }
+
+        .gallery-nav:hover {
+            color: var(--color-accent);
+        }
+
+        .gallery-prev {
+            left: 20px;
+        }
+
+        .gallery-next {
+            right: 20px;
+        }
+
+        .gallery-counter {
+            position: absolute;
+            bottom: var(--space-md);
+            color: rgba(255, 255, 255, 0.7);
+            font-family: var(--font-mono);
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. NAVIGATION -->
+    <header class="nav-wrapper" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">MDH Development LLC</a>
+            <nav class="nav-links">
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#contact" class="btn btn-outline-light nav-cta">Get In Touch</a>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-nav-links">
+            <a href="#projects" class="mobile-nav-link">Projects</a>
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#services" class="mobile-nav-link">Services</a>
+            <a href="#contact" class="mobile-nav-link" style="color: var(--color-accent); margin-top:20px;">Contact</a>
+        </nav>
+    </div>
+
+    <!-- 2. HERO -->
+    <section class="hero">
+        <img src="MDH Development LLC/Santa Clara.JPG" alt="MDH Development LLC Commercial Site" class="hero-bg">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title" id="heroTitle">Building Tomorrow's<br>Commercial Landscape</h1>
+            <p class="hero-subtitle" id="heroSubtitle">Turnkey commercial real estate development across Utah. From site
+                selection and entitlements to vertical construction and lease-up, we deliver long-term value.</p>
+            <div class="hero-actions hero-cta" id="heroBtn">
+                <a href="#projects" class="btn btn-filled-light">View Portfolio</a>
+                <a href="#contact" class="btn btn-outline-light">Get In Touch</a>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="heroScroll">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- 3. STATS BAR -->
+    <section class="stats js-scroll js-scroll-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number js-count" data-target="20">0</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <!-- Using placeholders [VERIFY] as suggested in brief -->
+                <div class="stat-item">
+                    <div class="stat-number js-count" data-target="2">0</div>
+                    <div class="stat-label">Million SQ FT Developed [V]</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number js-count" data-target="15">0</div>
+                    <div class="stat-label">Years Experience [V]</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number js-count" data-target="30">0</div>
+                    <div class="stat-label">Active Markets [V]</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. PHILOSOPHY / ABOUT TEASER -->
+    <section id="about" class="about-teaser">
+        <div class="about-grid">
+            <div class="about-image js-scroll js-scroll-clip">
+                <img src="MDH Development LLC/Union Park office.jpg" alt="MDH Development LLC Office"
+                    class="js-parallax" data-speed="0.1">
+            </div>
+            <div class="about-content">
+                <span class="eyebrow about-text-anim">Our Philosophy</span>
+                <h2 class="about-headline about-text-anim">Delivering Turnkey Commercial Properties That Serve Growing
+                    Communities.</h2>
+                <div class="about-body">
+                    <p class="about-text-anim">MDH Development LLC is a Utah-based commercial real estate development
+                        firm
+                        led by Marlon Hill. Specializing in ground-up retail centers, master-planned mixed-use
+                        communities, and hospitality projects across the Wasatch Front and rural Utah growth corridors.
+                    </p>
+                    <p class="about-text-anim">We have built a portfolio of 20+ projects spanning shopping centers,
+                        restaurant pads, office space, auto service facilities, and hotel developments.</p>
+                </div>
+                <div class="about-text-anim" style="margin-top: var(--space-md);">
+                    <a href="#services" class="btn btn-outline-dark">Explore Services</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SERVICES -->
+    <section id="services" class="services section-pad">
+        <div class="container">
+            <div class="services-header js-scroll js-fade-up">
+                <span class="eyebrow">Capabilities</span>
+                <h2>What We Do</h2>
+            </div>
+            <div class="services-grid js-scroll js-stagger">
+                <div class="card service-card">
+                    <!-- Storefront Icon -->
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path>
+                        <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path>
+                        <path d="M12 3v6"></path>
+                    </svg>
+                    <h3 class="service-title">Retail Center Development</h3>
+                    <p class="service-desc">Ground-up multi-tenant shopping centers and strip malls designed for optimal
+                        tenant mix and foot traffic.</p>
+                </div>
+                <div class="card service-card">
+                    <!-- Map Icon -->
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"></path>
+                        <path d="M9 3v15"></path>
+                        <path d="M15 6v15"></path>
+                    </svg>
+                    <h3 class="service-title">Master-Planned Communities</h3>
+                    <p class="service-desc">Large-scale mixed-use developments integrating retail, residential, medical,
+                        and industrial spaces.</p>
+                </div>
+                <div class="card service-card">
+                    <!-- Fork & Knife Icon -->
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 2v7c0 2.2 1.8 4 4 4h0c2.2 0 4-1.8 4-4V2"></path>
+                        <path d="M7 2v20"></path>
+                        <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path>
+                    </svg>
+                    <h3 class="service-title">Restaurant & Drive-Thrus</h3>
+                    <p class="service-desc">Freestanding and inline QSR pads optimized for high-volume service and
+                        accessibility.</p>
+                </div>
+                <div class="card service-card">
+                    <!-- Trending Up Icon -->
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                    <h3 class="service-title">Investment Sales & Brokerage</h3>
+                    <p class="service-desc">Leasing and sales of stabilized commercial properties through MDH
+                        Development LLC.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. FEATURED PROPERTIES (Active Projects) -->
+    <section id="projects" class="portfolio section-pad">
+        <div class="container">
+            <div class="portfolio-header js-scroll js-fade-up">
+                <div>
+                    <span class="eyebrow">Portfolio</span>
+                    <h2>Featured Projects</h2>
+                </div>
+                <div class="portfolio-nav">
+                    <!-- Optional filtering buttons could go here -->
+                </div>
+            </div>
+
+            <div class="portfolio-grid js-scroll js-stagger">
+
+                <!-- Ephraim Crossing (Full Width Highlight) -->
+                <div class="portfolio-card full group"
+                    data-gallery="MDH Development LLC/Tunex Ogden.jpg,MDH Development LLC/Eagle Mnt 1.jpg,MDH Development LLC/Eagle Mnt 2.jpg"
+                    style="cursor: pointer;">
+                    <!-- Assuming PDF extraction didn't happen yet, using a placeholder image for rendering, 
+                         or using one of the hero images that looks master-planny. Based on brief, Tunex Ogden is an aerial. -->
+                    <img src="MDH Development LLC/Tunex Ogden.jpg" alt="Ephraim Crossing" class="portfolio-img"
+                        loading="lazy">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-meta">Master-Planned Development / Active</span>
+                        <h3 class="portfolio-title">Ephraim Crossing</h3>
+                        <div class="portfolio-details">
+                            <p>240-acre community on Hwy 89. 14,400 SF retail with drive-thrus. Adjacent to new IHC
+                                hospital.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pleasant Grove -->
+                <div class="portfolio-card"
+                    data-gallery="MDH Development LLC/PG.jpg,MDH Development LLC/Main (1).jpg,MDH Development LLC/Shops-at-Redwood-main.jpg,MDH Development LLC/Shops at Redwood.jpg"
+                    style="cursor: pointer;">
+                    <!-- Converting PSD to JPG worked per terminal cmd -->
+                    <img src="MDH Development LLC/PG.jpg" alt="Pleasant Grove Town Center" class="portfolio-img"
+                        loading="lazy">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-meta">Retail / For Sale ($3.5M)</span>
+                        <h3 class="portfolio-title">Pleasant Grove Town Center</h3>
+                        <div class="portfolio-details">
+                            <p>5.8% Cap Rate. Modern new-construction retail with drive-thrus next to 200 pipeline
+                                apartments.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nephi Retail -->
+                <div class="portfolio-card"
+                    data-gallery="MDH Development LLC/Nephi Nov 2025 copy.jpg,hotel in nephi utah under construction/IMG_4026.jpeg,hotel in nephi utah under construction/IMG_4027.jpeg,hotel in nephi utah under construction/IMG_4028.jpeg,hotel in nephi utah under construction/hotel in nephi utah under construction.jpg"
+                    style="cursor: pointer;">
+                    <img src="MDH Development LLC/Nephi Nov 2025 copy.jpg" alt="Red Ridge Nephi" class="portfolio-img"
+                        loading="lazy">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-meta">Retail / Leasing</span>
+                        <h3 class="portfolio-title">Red Ridge, Nephi</h3>
+                        <div class="portfolio-details">
+                            <p>Direct I-15 access. Multi-tenant retail hub alongside national brands.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7455 Union Park -->
+                <div class="portfolio-card"
+                    data-gallery="7455 Union Park Ave/Final Images/IMG_6191_2234 copy.jpg,7455 Union Park Ave/Final Images/IMG_6190_2233 copy.jpg,7455 Union Park Ave/Final Images/IMG_6193_2236 copy.jpg,7455 Union Park Ave/Final Images/IMG_6195_2238 copy.jpg,7455 Union Park Ave/Final Images/IMG_6196_2239 copy.jpg,7455 Union Park Ave/Final Images/Suite A.jpg,7455 Union Park Ave/Final Images/Suite B.jpg,7455 Union Park Ave/Final Images/Suite C.jpg"
+                    style="cursor: pointer;">
+                    <img src="7455 Union Park Ave/Final Images/IMG_6191_2234 copy.jpg" alt="Union Park Retail"
+                        class="portfolio-img" loading="lazy">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-meta">Retail & Office / Completed</span>
+                        <h3 class="portfolio-title">7455 Union Park Ave</h3>
+                        <div class="portfolio-details">
+                            <p>Ground-up retail/office development featuring Beans & Brews drive-thru.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- West Haven -->
+                <div class="portfolio-card"
+                    data-gallery="west haven.png,MDH Development LLC/West Haven.png,MDH Development LLC/West Valley Sonic.jpg"
+                    style="cursor: pointer;">
+                    <img src="west haven.png" alt="West Haven Retail" class="portfolio-img" loading="lazy">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-meta">Retail / Completed</span>
+                        <h3 class="portfolio-title">West Haven Retail</h3>
+                        <div class="portfolio-details">
+                            <p>Modern retail strip center with drive-thru restaurant pad.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. TEAM -->
+    <section id="team" class="team section-pad">
+        <div class="container">
+            <div class="js-scroll js-fade-up">
+                <span class="eyebrow">Leadership</span>
+                <h2>Our Team</h2>
+            </div>
+            <div class="team-grid js-scroll js-stagger">
+                <div class="team-card">
+                    <div class="team-img-wrapper">
+                        <img src="MDH Development LLC/marlon_hill_headshot.jpg" alt="Marlon Hill" class="team-img"
+                            loading="lazy">
+                        <div class="team-bio-overlay">
+                            <p>Marlon Hill leads MDH Development LLC with deep expertise in commercial real estate
+                                development across Utah, affiliated with NAI Excel & NAI Premier.</p>
+                        </div>
+                    </div>
+                    <h3 class="team-name">Marlon Hill, MBA</h3>
+                    <span class="team-title">Principal Broker / Managing Partner</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. CONTACT / CTA -->
+    <section id="contact" class="cta-section section-pad">
+        <img src="7455 Union Park Ave/Final Images/IMG_6190_2233 copy.jpg" class="cta-bg" alt="Background">
+        <div class="container cta-content">
+            <h2 class="cta-headline" id="ctaHeadline">Let's Build Something Exceptional</h2>
+            <div class="cta-info js-scroll js-fade-up">
+                <p><strong>Office:</strong> 7455 Union Park Avenue, Ste. A, Midvale, Utah 84047</p>
+                <p><strong>Phone:</strong> 801-548-3262</p>
+                <p><strong>Email:</strong> <a href="mailto:Mhill@mdhdevco.com">Mhill@mdhdevco.com</a></p>
+            </div>
+            <div class="cta-buttons js-scroll js-fade-up">
+                <a href="mailto:Mhill@mdhdevco.com" class="btn btn-filled-light">Email Us</a>
+                <a href="tel:8015483262" class="btn btn-outline-light">Call 801-548-3262</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="footer-logo">MDH Development LLC <span>By Marlon Hill</span></a>
+                    <p style="max-width: 300px; margin-top:var(--space-md); font-size:14px;">Specializing in ground-up
+                        retail centers, master-planned mixed-use communities, and hospitality projects.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#projects">Portfolio</a></li>
+                        <li><a href="#services">Capabilities</a></li>
+                        <li><a href="#about">Philosophy</a></li>
+                        <li><a href="#team">Team</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Affiliations</h4>
+                    <ul>
+                        <li>NAI Excel</li>
+                        <li>NAI Premier</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MDH Development LLC. All rights reserved.</p>
+                <p>Site crafted with precision.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 12. GALLERY MODAL -->
+    <div class="gallery-modal" id="galleryModal">
+        <div class="gallery-close" id="galleryClose">&times;</div>
+        <div class="gallery-nav gallery-prev" id="galleryPrev">&#10094;</div>
+        <div class="gallery-content">
+            <img src="" alt="Gallery Image" class="gallery-img" id="galleryImg">
+        </div>
+        <div class="gallery-nav gallery-next" id="galleryNext">&#10095;</div>
+        <div class="gallery-counter" id="galleryCounter"></div>
+    </div>
+
+    <!-- =========================================================================
+         JAVASCRIPT
+         ========================================================================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. Navigation Scroll Effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 80) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }, { passive: true });
+
+            // 2. Mobile Menu Toggle
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+
+                // Stagger links entrance
+                if (mobileMenu.classList.contains('active')) {
+                    mobileLinks.forEach((link, index) => {
+                        setTimeout(() => {
+                            link.style.opacity = '1';
+                            link.style.transform = 'translateY(0)';
+                        }, 50 * index + 200);
+                    });
+                } else {
+                    mobileLinks.forEach((link) => {
+                        link.style.opacity = '0';
+                        link.style.transform = 'translateY(20px)';
+                    });
+                }
+            });
+
+            // Close mobile menu on click
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+
+            // 3. Hero Entrance Animations (Sequence)
+            // No JS needed for prefers-reduced-motion as CSS handles none, but good practice
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+            if (!prefersReducedMotion.matches) {
+                setTimeout(() => {
+                    const title = document.getElementById('heroTitle');
+                    title.style.transition = 'opacity 900ms cubic-bezier(0.16, 1, 0.3, 1), transform 900ms cubic-bezier(0.16, 1, 0.3, 1)';
+                    title.style.opacity = '1';
+                    title.style.transform = 'translateY(0)';
+                }, 600);
+
+                setTimeout(() => {
+                    const sub = document.getElementById('heroSubtitle');
+                    sub.style.transition = 'opacity 900ms cubic-bezier(0.16, 1, 0.3, 1), transform 900ms cubic-bezier(0.16, 1, 0.3, 1)';
+                    sub.style.opacity = '1';
+                    sub.style.transform = 'translateY(0)';
+                }, 800);
+
+                setTimeout(() => {
+                    const btn = document.getElementById('heroBtn');
+                    btn.style.transition = 'opacity 600ms ease, transform 600ms ease';
+                    btn.style.opacity = '1';
+                    btn.style.transform = 'scale(1)';
+                }, 1000);
+
+                setTimeout(() => {
+                    const scroll = document.getElementById('heroScroll');
+                    scroll.style.transition = 'opacity 800ms ease';
+                    scroll.style.opacity = '1';
+                }, 1400);
+            } else {
+                // Ensure visible if reduced motion
+                document.getElementById('heroTitle').style.opacity = '1';
+                document.getElementById('heroTitle').style.transform = 'none';
+                document.getElementById('heroSubtitle').style.opacity = '1';
+                document.getElementById('heroSubtitle').style.transform = 'none';
+                document.getElementById('heroBtn').style.opacity = '1';
+                document.getElementById('heroBtn').style.transform = 'none';
+            }
+
+            // 4. Scroll Intersection Observers
+            const observerOptions = {
+                root: null,
+                threshold: 0.15,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+
+                        // Handle different animation types
+                        if (el.classList.contains('js-scroll-stats')) {
+                            el.classList.add('is-visible');
+                            // Trigger count up
+                            if (!prefersReducedMotion.matches && !el.dataset.counted) {
+                                document.querySelectorAll('.js-count').forEach(counter => {
+                                    animateValue(counter, 0, parseInt(counter.getAttribute('data-target')), 2000);
+                                });
+                                el.dataset.counted = 'true';
+                            }
+                        }
+                        else if (el.classList.contains('js-scroll-clip')) {
+                            el.classList.add('is-visible');
+                            // Stagger content next to it
+                            const textElements = document.querySelectorAll('.about-text-anim');
+                            textElements.forEach((txt, idx) => {
+                                setTimeout(() => {
+                                    txt.style.opacity = '1';
+                                    txt.style.transform = 'translateY(0)';
+                                }, 800 + (idx * 100)); // Delay after image starts
+                            });
+                        }
+                        else if (el.classList.contains('js-stagger')) {
+                            const children = Array.from(el.children);
+                            children.forEach((child, idx) => {
+                                setTimeout(() => {
+                                    child.classList.add('is-visible');
+                                }, idx * 120); // 120ms stagger
+                            });
+                        }
+                        else if (el.classList.contains('js-fade-up')) {
+                            el.style.opacity = '1';
+                            el.style.transform = 'translateY(0)';
+                            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                        }
+
+                        // Unobserve once played
+                        observer.unobserve(el);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements
+            document.querySelectorAll('.js-scroll').forEach(el => {
+                scrollObserver.observe(el);
+
+                // Pre-set states for fade-up items not handled in CSS
+                if (el.classList.contains('js-fade-up')) {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(40px)';
+                }
+            });
+
+            // Split text setup for CTA section
+            setupCtaAnimation();
+
+            // 5. Number Count-up easing function (easeOutExpo)
+            function animateValue(obj, start, end, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    // easeOutExpo
+                    const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                    obj.innerHTML = Math.floor(easeProgress * (end - start) + start);
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            // 6. Split Text for CTA
+            function setupCtaAnimation() {
+                const headline = document.getElementById('ctaHeadline');
+                if (!headline) return;
+
+                const text = headline.innerText;
+                const words = text.split(' ');
+                headline.innerHTML = '';
+
+                words.forEach(word => {
+                    const span = document.createElement('span');
+                    span.className = 'word';
+                    span.innerText = word + ' ';
+                    headline.appendChild(span);
+                });
+
+                // Set up observer for CTA
+                const ctaObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        const wordSpans = document.querySelectorAll('.cta-headline .word');
+                        wordSpans.forEach((span, i) => {
+                            setTimeout(() => {
+                                span.style.opacity = '1';
+                                span.style.transform = 'translateY(0)';
+                            }, i * 60); // 60ms stagger per word
+                        });
+                        ctaObserver.unobserve(headline.parentElement);
+                    }
+                }, { threshold: 0.5 });
+
+                ctaObserver.observe(headline.parentElement);
+            }
+
+            // 8. Gallery Modal Support
+            const modal = document.getElementById('galleryModal');
+            let currentGallery = [];
+            let currentIndex = 0;
+
+            document.querySelectorAll('.portfolio-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const galleryStr = card.getAttribute('data-gallery');
+                    if (galleryStr) {
+                        currentGallery = galleryStr.split(',');
+                        currentIndex = 0;
+                        updateGalleryImage();
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            document.getElementById('galleryClose').addEventListener('click', () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            document.getElementById('galleryNext').addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % currentGallery.length;
+                updateGalleryImage();
+            });
+
+            document.getElementById('galleryPrev').addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+                updateGalleryImage();
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            function updateGalleryImage() {
+                const imgEl = document.getElementById('galleryImg');
+                const counter = document.getElementById('galleryCounter');
+                imgEl.src = currentGallery[currentIndex];
+                counter.innerText = `${currentIndex + 1} / ${currentGallery.length}`;
+            }
+
+            // 7. Simple Parallax
+            if (!prefersReducedMotion.matches) {
+                const parallaxImages = document.querySelectorAll('.js-parallax');
+                window.addEventListener('scroll', () => {
+                    parallaxImages.forEach(img => {
+                        const speed = img.getAttribute('data-speed') || 0.2;
+                        const bound = img.parentElement.getBoundingClientRect();
+                        // Only animate if in viewport
+                        if (bound.top < window.innerHeight && bound.bottom > 0) {
+                            const yPos = -(bound.top * speed);
+                            img.style.transform = `translateY(${yPos}px) scale(1.1)`; // scale slightly to cover gaps
+                        }
+                    });
+                }, { passive: true });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

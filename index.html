@@ -649,14 +649,12 @@
         .trust-img {
             max-height: 48px;
             width: auto;
-            opacity: 0.8;
-            filter: grayscale(100%) brightness(200%);
-            transition: opacity 0.3s ease, filter 0.3s ease;
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         .trust-img:hover {
-            opacity: 1;
-            filter: grayscale(0%) brightness(100%);
+            opacity: 0.8;
         }
 
         /* =========================================================================

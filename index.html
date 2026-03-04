@@ -650,6 +650,30 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        .trust-bar {
+            background-color: #F8F9FA;
+            padding: var(--space-lg) 0;
+            text-align: center;
+        }
+
+        .trust-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: var(--text-label);
+            color: var(--color-text);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: var(--space-md);
+        }
+
+        .trust-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-xl);
+            flex-wrap: wrap;
+        }
+
         .trust-logo {
             display: inline-flex;
             align-items: center;
@@ -659,12 +683,29 @@
         .trust-img {
             max-height: 48px;
             width: auto;
-            opacity: 1;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0.7;
+            transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
         }
 
-        .trust-img:hover {
-            opacity: 0.8;
+        /* Trust Bar (Light Background) */
+        .trust-bar .trust-img {
+            filter: grayscale(100%);
+        }
+
+        .trust-bar .trust-img:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        /* Footer (Dark Background) */
+        .footer .trust-img {
+            filter: brightness(0) invert(1);
+            opacity: 0.6;
+        }
+
+        .footer .trust-img:hover {
+            opacity: 1;
+            filter: brightness(0) invert(1);
         }
 
         /* =========================================================================

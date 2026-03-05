@@ -655,6 +655,23 @@
             text-align: center;
         }
 
+        .testimonial-text {
+            font-family: var(--font-display);
+            font-size: clamp(24px, 4vw, 48px);
+            line-height: 1.3;
+            /* Base faded color */
+            color: rgba(17, 24, 34, 0.2);
+            margin-bottom: var(--space-xs);
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-word {
+            display: inline-block;
+            transition: color 0.1s ease-out;
+            color: rgba(17, 24, 34, 0.2);
+        }
+
         .stat-number {
             font-family: var(--font-display);
             font-size: clamp(36px, 5vw, 72px);
@@ -2228,24 +2245,47 @@
             // Testimonial Scroll Highlight
             const testimonialText = document.querySelector('.testimonial-text');
             if (testimonialText) {
+                const text = testimonialText.innerText;
+                testimonialText.innerHTML = '';
+                // Split text into words and wrap each in a span
+                const words = text.split(' ');
+                words.forEach(word => {
+                    const span = document.createElement('span');
+                    span.className = 'testimonial-word';
+                    span.innerHTML = word + '&nbsp;';
+                    testimonialText.appendChild(span);
+                });
+
+                const wordSpans = testimonialText.querySelectorAll('.testimonial-word');
+
                 window.addEventListener('scroll', () => {
                     const rect = testimonialText.getBoundingClientRect();
                     const windowHeight = window.innerHeight;
+
                     // Trigger effect as element passes through the viewport
                     const startPos = windowHeight * 0.8;
-                    const endPos = windowHeight * 0.4;
+                    const endPos = windowHeight * 0.3;
 
+                    let progress = 0;
                     if (rect.top < startPos && rect.top > endPos) {
-                        let progress = (startPos - rect.top) / (startPos - endPos);
-                        progress = Math.max(0, Math.min(1, progress));
-                        const bgPos = 100 - (progress * 100);
-                        testimonialText.style.backgroundPosition = `${bgPos}% 0`;
-                    } else if (rect.top >= startPos) {
-                        testimonialText.style.backgroundPosition = `100% 0`;
+                        progress = (startPos - rect.top) / (startPos - endPos);
                     } else if (rect.top <= endPos) {
-                        testimonialText.style.backgroundPosition = `0% 0`;
+                        progress = 1;
                     }
+
+                    const fillCount = Math.floor(progress * wordSpans.length);
+
+                    wordSpans.forEach((span, index) => {
+                        if (index < fillCount) {
+                            span.style.color = '#111822'; // Dark color
+                        } else {
+                            span.style.color = 'rgba(17, 24, 34, 0.2)'; // Faded color
+                        }
+                    });
                 }, { passive: true });
+
+                // Trigger once on load to set initial state
+                window.dispatchEvent(new Event('scroll'));
             }
 
             // 7. Simple Parallax

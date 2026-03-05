@@ -2397,22 +2397,28 @@
                     // Add class for PDF-specific styling
                     modal.classList.add('viewing-pdf');
 
-                    // Detect if PDF loaded successfully (timeout method)
-                    setTimeout(() => {
-                        // If height is 0 or very small, likely failed
-                        if (pdfEl.offsetHeight < 100) {
-                            pdfEl.style.display = 'none';
-                            pdfFallback.classList.add('active');
-                        } else {
-                            pdfEl.style.display = 'block';
-                            pdfFallback.classList.remove('active');
-                        }
-                    }, 1000);
-
-                    // Mobile-specific: Add instructions for first-time viewers
-                    if (window.innerWidth <= 768 && !localStorage.getItem('pdfInstructionsShown')) {
-                        showPdfInstructions();
-                        localStorage.setItem('pdfInstructionsShown', 'true');
+                    // If mobile, don't try to embed, just show the fallback download/view link
+                    if (window.innerWidth <= 768) {
+                        pdfEl.style.display = 'none';
+                        pdfFallback.querySelector('p').innerText = "View Document";
+                        pdfFallback.classList.add('active');
+                        pdfDownloadLink.innerText = "Open PDF";
+                        pdfDownloadLink.target = "_blank"; // Open in native viewer/new tab
+                    } else {
+                        // Desktop: Detect if PDF loaded successfully (timeout method)
+                        pdfFallback.querySelector('p').innerText = "Unable to display PDF in your browser.";
+                        pdfDownloadLink.innerText = "Download PDF";
+                        pdfDownloadLink.target = "_self";
+                        setTimeout(() => {
+                            // If height is 0 or very small, likely failed
+                            if (pdfEl.offsetHeight < 100) {
+                                pdfEl.style.display = 'none';
+                                pdfFallback.classList.add('active');
+                            } else {
+                                pdfEl.style.display = 'block';
+                                pdfFallback.classList.remove('active');
+                            }
+                        }, 1000);
                     }
 
                 } else {

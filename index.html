@@ -1427,31 +1427,73 @@
                 text-align: center;
             }
 
-            /* Gallery Modal Mobile */
-            .gallery-nav {
-                font-size: 30px;
-                padding: 10px;
+            /* Mobile PDF Optimizations */
+            .gallery-pdf-wrapper {
+                width: 100vw;
+                height: 100vh;
+                padding: 0;
             }
 
-            .gallery-prev {
-                left: 5px;
+            .gallery-pdf {
+                width: 100vw;
+                height: calc(100vh - 60px);
+                max-width: 100vw;
+                border-radius: 0;
+                touch-action: pan-y pinch-zoom;
+                -webkit-overflow-scrolling: touch;
             }
 
-            .gallery-next {
-                right: 5px;
+            .gallery-modal.viewing-pdf .gallery-nav {
+                background: rgba(0, 0, 0, 0.7);
+                backdrop-filter: blur(8px);
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
             }
 
-            .gallery-close {
-                top: 15px;
-                right: 15px;
-                font-size: 30px;
+            .gallery-modal.viewing-pdf .gallery-prev {
+                left: 10px;
+                top: 50%;
+                transform: translateY(-50%);
             }
 
+            .gallery-modal.viewing-pdf .gallery-next {
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .gallery-modal.viewing-pdf .gallery-close {
+                background: rgba(0, 0, 0, 0.7);
+                backdrop-filter: blur(8px);
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1;
+                top: 10px;
+                right: 10px;
+            }
+
+            .gallery-modal.viewing-pdf .gallery-counter {
+                bottom: 10px;
+                background: rgba(0, 0, 0, 0.7);
+                backdrop-filter: blur(8px);
+                padding: 8px 16px;
+                border-radius: 20px;
+            }
+
+            /* Adjust image gallery when NOT viewing PDF */
             .gallery-content {
                 max-width: 100vw;
-                height: 100vh;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
+                max-height: 100vh;
+                overflow: hidden;
             }
 
             /* Touch Friendly Team Bios - show info below instead of hover overlay */
@@ -1469,6 +1511,17 @@
         }
 
         @media (max-width: 480px) {
+
+            .gallery-pdf {
+                width: 100vw;
+                height: calc(100vh - 50px);
+            }
+
+            .gallery-modal.viewing-pdf .gallery-nav {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+            }
 
             /* Small Phones */
             .container {
@@ -1557,7 +1610,48 @@
         }
 
         .gallery-nav:hover {
-            color: var(--color-accent);
+            color: var(--color-white);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* PDF Wrapper Container */
+        .gallery-pdf-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #000;
+        }
+
+        /* PDF Embed - Desktop */
+        .gallery-pdf {
+            width: 90vw;
+            height: 85vh;
+            max-width: 1200px;
+            border: none;
+            border-radius: var(--radius-md);
+            background: white;
+            flex-shrink: 0;
+        }
+
+        /* PDF Fallback Download */
+        .pdf-fallback {
+            display: none;
+            text-align: center;
+            color: white;
+            padding: var(--space-xl);
+        }
+
+        .pdf-fallback.active {
+            display: block;
+        }
+
+        .pdf-fallback p {
+            margin-bottom: var(--space-md);
+            font-size: var(--text-body-lg);
         }
 
         .gallery-prev {
@@ -1986,11 +2080,25 @@
     <div class="gallery-modal" id="galleryModal">
         <div class="gallery-close" id="galleryClose">&times;</div>
         <div class="gallery-nav gallery-prev" id="galleryPrev">&#10094;</div>
+
         <div class="gallery-content">
+            <!-- Image display -->
             <img src="" alt="Gallery Image" class="gallery-img" id="galleryImg">
-            <iframe src="" class="gallery-pdf" id="galleryPdf"
-                style="display:none; width:100%; height:100%; border:none; border-radius:var(--radius-lg);"></iframe>
+
+            <!-- PDF display wrapper -->
+            <div class="gallery-pdf-wrapper" id="galleryPdfWrapper" style="display: none;">
+                <embed id="galleryPdf" type="application/pdf" class="gallery-pdf" />
+
+                <!-- Fallback download link for unsupported browsers -->
+                <div class="pdf-fallback" id="pdfFallback">
+                    <p>Unable to display PDF in your browser.</p>
+                    <a href="" download class="btn btn-filled-light" id="pdfDownloadLink">
+                        Download PDF
+                    </a>
+                </div>
+            </div>
         </div>
+
         <div class="gallery-nav gallery-next" id="galleryNext">&#10095;</div>
         <div class="gallery-counter" id="galleryCounter"></div>
     </div>
@@ -2267,21 +2375,120 @@
 
             function updateGalleryImage() {
                 const imgEl = document.getElementById('galleryImg');
+                const pdfWrapper = document.getElementById('galleryPdfWrapper');
                 const pdfEl = document.getElementById('galleryPdf');
+                const pdfFallback = document.getElementById('pdfFallback');
+                const pdfDownloadLink = document.getElementById('pdfDownloadLink');
                 const counter = document.getElementById('galleryCounter');
+                const modal = document.getElementById('galleryModal');
 
                 const src = currentGallery[currentIndex];
-                if (src.toLowerCase().endsWith('.pdf')) {
+                const isPdf = src.toLowerCase().endsWith('.pdf');
+
+                if (isPdf) {
+                    // Hide image, show PDF wrapper
                     imgEl.style.display = 'none';
+                    pdfWrapper.style.display = 'flex';
+
+                    // Set PDF source and download link
                     pdfEl.src = src;
-                    pdfEl.style.display = 'block';
+                    pdfDownloadLink.href = src;
+
+                    // Add class for PDF-specific styling
+                    modal.classList.add('viewing-pdf');
+
+                    // Detect if PDF loaded successfully (timeout method)
+                    setTimeout(() => {
+                        // If height is 0 or very small, likely failed
+                        if (pdfEl.offsetHeight < 100) {
+                            pdfEl.style.display = 'none';
+                            pdfFallback.classList.add('active');
+                        } else {
+                            pdfEl.style.display = 'block';
+                            pdfFallback.classList.remove('active');
+                        }
+                    }, 1000);
+
+                    // Mobile-specific: Add instructions for first-time viewers
+                    if (window.innerWidth <= 768 && !localStorage.getItem('pdfInstructionsShown')) {
+                        showPdfInstructions();
+                        localStorage.setItem('pdfInstructionsShown', 'true');
+                    }
+
                 } else {
-                    pdfEl.style.display = 'none';
-                    imgEl.src = src;
+                    // Show image, hide PDF wrapper
                     imgEl.style.display = 'block';
+                    pdfWrapper.style.display = 'none';
+                    imgEl.src = src;
+                    modal.classList.remove('viewing-pdf');
                 }
 
+                // Update counter
                 counter.innerText = `${currentIndex + 1} / ${currentGallery.length}`;
+            }
+
+            // Optional: Show brief instructions for mobile PDF viewing
+            function showPdfInstructions() {
+                const instructionDiv = document.createElement('div');
+                instructionDiv.className = 'pdf-instructions';
+                instructionDiv.innerHTML = `
+        <div class="pdf-instructions-content">
+            <p>📄 Use pinch to zoom • Swipe to scroll</p>
+        </div>
+    `;
+                document.body.appendChild(instructionDiv);
+
+                // Add styles for instructions
+                const style = document.createElement('style');
+                style.textContent = `
+        .pdf-instructions {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10001;
+            animation: fadeInOut 3s ease forwards;
+        }
+        .pdf-instructions-content {
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            backdrop-filter: blur(8px);
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            10%, 90% { opacity: 1; }
+        }
+    `;
+                document.head.appendChild(style);
+
+                // Remove after animation
+                setTimeout(() => {
+                    instructionDiv.remove();
+                }, 3000);
+            }
+
+            // iOS PDF Fix - Use iframe instead of embed on iOS
+            function isIOS() {
+                return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            }
+
+            if (isIOS()) {
+                // Replace embed with iframe on iOS for better compatibility
+                const pdfWrapper = document.getElementById('galleryPdfWrapper');
+                const oldEmbed = document.getElementById('galleryPdf');
+
+                // Create iframe instead
+                const iframe = document.createElement('iframe');
+                iframe.id = 'galleryPdf';
+                iframe.className = 'gallery-pdf';
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('scrolling', 'auto');
+
+                // Replace embed with iframe
+                oldEmbed.parentNode.replaceChild(iframe, oldEmbed);
             }
 
             // Testimonial Scroll Highlight

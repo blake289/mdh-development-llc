@@ -1864,7 +1864,7 @@
             <div class="quote-icon">"</div>
             <p class="testimonial-text">"Marlon and the MDH Development team brought exceptional vision and execution to
                 our projects. Their deep understanding of the Utah market was invaluable."</p>
-            <div class="testimonial-author">Community Partners</div>
+            <div class="testimonial-author" style="margin-top: var(--space-lg);">Community Partners</div>
             <span class="testimonial-role">Commercial Stakeholders</span>
         </div>
     </section>
@@ -1932,6 +1932,8 @@
         <div class="gallery-nav gallery-prev" id="galleryPrev">&#10094;</div>
         <div class="gallery-content">
             <img src="" alt="Gallery Image" class="gallery-img" id="galleryImg">
+            <iframe src="" class="gallery-pdf" id="galleryPdf"
+                style="display:none; width:100%; height:80vh; border:none; border-radius:var(--radius-lg);"></iframe>
         </div>
         <div class="gallery-nav gallery-next" id="galleryNext">&#10095;</div>
         <div class="gallery-counter" id="galleryCounter"></div>
@@ -2209,9 +2211,44 @@
 
             function updateGalleryImage() {
                 const imgEl = document.getElementById('galleryImg');
+                const pdfEl = document.getElementById('galleryPdf');
                 const counter = document.getElementById('galleryCounter');
-                imgEl.src = currentGallery[currentIndex];
+
+                const src = currentGallery[currentIndex];
+                if (src.toLowerCase().endsWith('.pdf')) {
+                    imgEl.style.display = 'none';
+                    pdfEl.src = src;
+                    pdfEl.style.display = 'block';
+                } else {
+                    pdfEl.style.display = 'none';
+                    imgEl.src = src;
+                    imgEl.style.display = 'block';
+                }
+
                 counter.innerText = `${currentIndex + 1} / ${currentGallery.length}`;
+            }
+
+            // Testimonial Scroll Highlight
+            const testimonialText = document.querySelector('.testimonial-text');
+            if (testimonialText) {
+                window.addEventListener('scroll', () => {
+                    const rect = testimonialText.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+                    // Trigger effect as element passes through the viewport
+                    const startPos = windowHeight * 0.8;
+                    const endPos = windowHeight * 0.4;
+
+                    if (rect.top < startPos && rect.top > endPos) {
+                        let progress = (startPos - rect.top) / (startPos - endPos);
+                        progress = Math.max(0, Math.min(1, progress));
+                        const bgPos = 100 - (progress * 100);
+                        testimonialText.style.backgroundPosition = `${bgPos}% 0`;
+                    } else if (rect.top >= startPos) {
+                        testimonialText.style.backgroundPosition = `100% 0`;
+                    } else if (rect.top <= endPos) {
+                        testimonialText.style.backgroundPosition = `0% 0`;
+                    }
+                }, { passive: true });
             }
 
             // 7. Simple Parallax

@@ -2092,7 +2092,8 @@
                 <!-- Fallback download link for unsupported browsers -->
                 <div class="pdf-fallback" id="pdfFallback">
                     <p>Unable to display PDF in your browser.</p>
-                    <a href="" download class="btn btn-filled-light" id="pdfDownloadLink">
+                    <a href="#" class="btn btn-filled-light" id="pdfDownloadLink"
+                        style="pointer-events: all; position: relative; z-index: 10000;">
                         Download PDF
                     </a>
                 </div>
@@ -2403,7 +2404,14 @@
                         pdfFallback.querySelector('p').innerText = "View Document";
                         pdfFallback.classList.add('active');
                         pdfDownloadLink.innerText = "Open PDF";
+                        pdfDownloadLink.href = src; // Keep href for backup right-click
                         pdfDownloadLink.target = "_blank"; // Open in native viewer/new tab
+
+                        // Force native parsing on mobile
+                        pdfDownloadLink.onclick = function (e) {
+                            e.preventDefault();
+                            window.open(src, '_blank');
+                        };
                     } else {
                         // Desktop: Detect if PDF loaded successfully (timeout method)
                         pdfFallback.querySelector('p').innerText = "Unable to display PDF in your browser.";

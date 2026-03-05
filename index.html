@@ -733,18 +733,10 @@
         .trust-img {
             max-height: 48px;
             width: auto;
-            opacity: 0.7;
+            opacity: 0.8;
+            filter: brightness(0) invert(0);
+            /* Converts white PNG to solid black */
             transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
-        }
-
-        /* Trust Bar (Light Background) */
-        .trust-bar .trust-img {
-            filter: grayscale(100%);
-        }
-
-        .trust-bar .trust-img:hover {
-            opacity: 1;
-            filter: grayscale(0%);
         }
 
         /* Footer (Dark Background) */
@@ -1215,7 +1207,7 @@
            TRUST BAR & TESTIMONIAL
            ========================================================================= */
         .trust-bar {
-            background-color: var(--color-primary);
+            background-color: var(--color-white);
             padding: var(--space-md) 0;
             border-bottom: 1px solid var(--color-border);
             text-align: center;
@@ -1225,7 +1217,7 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--color-text-muted);
             margin-bottom: var(--space-sm);
             display: block;
         }

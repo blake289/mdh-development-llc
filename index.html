@@ -458,6 +458,17 @@
             /* Center content vertically but shift higher */
         }
 
+        .hero-bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            background-color: var(--color-background);
+        }
+
         .hero-bg {
             position: absolute;
             top: 0;
@@ -465,19 +476,29 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: 0;
-            transform: scale(1.0);
-            will-change: transform;
-            animation: kenBurns 20s ease-in-out 1 forwards;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            will-change: transform, opacity;
         }
 
-        @keyframes kenBurns {
+        .hero-bg.active {
+            opacity: 1;
+            /* slightly higher speed zoom over 6s */
+            animation: kenBurnsSlide 6s linear forwards;
+        }
+
+        .hero-bg.prev {
+            opacity: 0;
+            animation: kenBurnsSlide 6s linear forwards;
+        }
+
+        @keyframes kenBurnsSlide {
             0% {
                 transform: scale(1.0);
             }
 
             100% {
-                transform: scale(1.06);
+                transform: scale(1.08);
             }
         }
 
@@ -1534,7 +1555,14 @@
 
     <!-- 2. HERO -->
     <section class="hero">
-        <img src="MDH Development LLC/Santa Clara.JPG" alt="MDH Development LLC Commercial Site" class="hero-bg">
+        <div class="hero-bg-container">
+            <img src="MDH Development LLC/Santa Clara.JPG" alt="Santa Clara Development" class="hero-bg active"
+                loading="lazy">
+            <img src="7455 Union Park Ave/Final Images/IMG_6190_2233 copy.jpg" alt="Union Park Development"
+                class="hero-bg" loading="lazy">
+            <img src="MDH Development LLC/PG.jpg" alt="Commercial Property" class="hero-bg" loading="lazy">
+            <img src="MDH Development LLC/West Haven.png" alt="West Haven Retail" class="hero-bg" loading="lazy">
+        </div>
         <div class="hero-overlay"></div>
         <div class="container hero-content">
             <h1 class="hero-title" id="heroTitle">Building Tomorrow's<br>Commercial Landscape</h1>
@@ -1914,6 +1942,28 @@
          ========================================================================= -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            // 0. Hero Slideshow
+            const heroBgs = document.querySelectorAll('.hero-bg');
+            if (heroBgs.length > 1) {
+                let currentBg = 0;
+                setInterval(() => {
+                    const prevBgElement = heroBgs[currentBg];
+                    prevBgElement.classList.remove('active');
+                    prevBgElement.classList.add('prev');
+
+                    currentBg = (currentBg + 1) % heroBgs.length;
+
+                    heroBgs[currentBg].classList.remove('prev');
+                    // trigger reflow to restart the animation from 0%
+                    void heroBgs[currentBg].offsetWidth;
+                    heroBgs[currentBg].classList.add('active');
+
+                    setTimeout(() => {
+                        prevBgElement.classList.remove('prev');
+                    }, 1500); // Wait for opacity transition to finish
+                }, 4000);
+            }
 
             // 1. Navigation Scroll Effect
             const navbar = document.getElementById('navbar');

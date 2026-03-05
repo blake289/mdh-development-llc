@@ -196,8 +196,13 @@
             border-radius: var(--radius-sm);
         }
 
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
         .btn:active {
-            transform: scale(0.97);
+            transform: scale(0.97) translateY(0);
             transition-duration: 0.1s;
         }
 
@@ -353,6 +358,8 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
             color: var(--color-white);
             padding: 10px 20px;
+            min-height: 44px;
+            /* Touch target */
         }
 
         .nav-wrapper.scrolled .nav-cta {
@@ -370,6 +377,9 @@
             height: 20px;
             cursor: pointer;
             z-index: 1001;
+            padding: 10px;
+            /* Expand touch target area */
+            box-sizing: content-box;
         }
 
         .hamburger span {
@@ -835,6 +845,11 @@
         .service-card.is-visible {
             opacity: 1;
             transform: scale(1);
+        }
+
+        .service-card.is-visible:hover {
+            transform: scale(1) translateY(-6px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06), 0 12px 32px rgba(0, 0, 0, 0.08);
         }
 
         .service-icon {
@@ -1333,6 +1348,12 @@
         @media (max-width: 768px) {
 
             /* Mobile */
+            /* Ensure section padding doesn't overflow horizontally on small screens */
+            .section-pad {
+                padding-top: var(--space-xl);
+                padding-bottom: var(--space-xl);
+            }
+
             .nav-links {
                 display: none;
             }

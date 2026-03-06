@@ -899,6 +899,11 @@
             border-radius: var(--radius-md);
         }
 
+        /* Prevent final odd card from stretching full width */
+        .portfolio-grid .portfolio-card:last-child:nth-child(odd) {
+            grid-column: 1 / 2;
+        }
+
         /* Hard fallback: keep featured project cards visible even if JS reveal states fail */
         .portfolio .portfolio-card {
             opacity: 1 !important;
@@ -975,11 +980,7 @@
             margin-top: var(--space-xs);
         }
 
-        /* Portfolio Project specific grid styles (using full width for Ephraim) */
-        .portfolio-card.full {
-            grid-column: 1 / -1;
-            aspect-ratio: 21/9;
-        }
+        /* Portfolio Project specific grid styles eliminated - all cards are now standard half-width */
 
         /* =========================================================================
            8. TEAM
@@ -1409,10 +1410,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .portfolio-card.full {
-                aspect-ratio: 4/3;
-                /* Stack nicely */
-            }
+            /* Removed .portfolio-card.full overrides */
 
             .team-grid {
                 grid-template-columns: 1fr;
@@ -2136,8 +2134,8 @@
                 <!-- St. George Staples -->
                 <div class="portfolio-card" data-gallery="MDH Development LLC/St George Staples.JPG"
                     style="cursor: pointer;">
-                    <img src="MDH Development LLC/St George Staples.JPG" alt="St George Staples"
-                        class="portfolio-img" loading="lazy" decoding="async">
+                    <img src="MDH Development LLC/St George Staples.JPG" alt="St George Staples" class="portfolio-img"
+                        loading="lazy" decoding="async">
                     <div class="portfolio-overlay">
                         <span class="portfolio-meta">Retail / National Tenant</span>
                         <h3 class="portfolio-title">St. George Staples</h3>
@@ -2191,8 +2189,7 @@
                 </div>
 
                 <!-- Ephraim Crossing (Active) -->
-                <div class="portfolio-card full group"
-                    data-gallery="ephraim-retail-flyer-page1.jpg,Ephraim-Retail-Flyer.pdf"
+                <div class="portfolio-card" data-gallery="ephraim-retail-flyer-page1.jpg,Ephraim-Retail-Flyer.pdf"
                     style="cursor: pointer;">
                     <img src="ephraim-retail-flyer-page1.jpg" alt="Ephraim Crossing" class="portfolio-img"
                         loading="lazy" decoding="async">

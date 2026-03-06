@@ -899,6 +899,12 @@
             border-radius: var(--radius-md);
         }
 
+        /* Hard fallback: keep featured project cards visible even if JS reveal states fail */
+        .portfolio .portfolio-card {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
         .portfolio-card.is-visible {
             opacity: 1;
             transform: translateY(0);

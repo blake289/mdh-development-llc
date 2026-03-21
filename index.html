@@ -88,6 +88,7 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: calc(var(--nav-height) + 32px);
         }
 
         *:focus-visible {
@@ -2029,7 +2030,7 @@
             </div>
 
             <!-- Previous Projects -->
-            <div id="previous-projects" class="portfolio-header js-scroll js-fade-up" style="margin-top: var(--space-xl);">
+            <div id="previous-projects" class="portfolio-header js-scroll js-fade-up" style="margin-top: var(--space-xl); scroll-margin-top: calc(var(--nav-height) + 32px);">
                 <div style="text-align: center;">
                     <span class="eyebrow section-xl-eyebrow">Portfolio</span>
                     <h2 class="section-xl-title">Previous Projects</h2>

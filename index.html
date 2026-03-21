@@ -2469,11 +2469,30 @@
                 }
             });
 
-            // Close mobile menu on click
+            // Close mobile menu on click, then scroll after menu fades out
             mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    mobileMenu.classList.remove('active');
+                link.addEventListener('click', (e) => {
+                    const target = link.getAttribute('href');
+                    if (target && target.startsWith('#')) {
+                        e.preventDefault();
+                        hamburger.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                        mobileLinks.forEach((l) => {
+                            l.style.opacity = '0';
+                            l.style.transform = 'translateY(20px)';
+                        });
+                        setTimeout(() => {
+                            const el = document.querySelector(target);
+                            if (el) {
+                                const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 90;
+                                const y = el.getBoundingClientRect().top + window.scrollY - navHeight - 32;
+                                window.scrollTo({ top: y, behavior: 'smooth' });
+                            }
+                        }, 420);
+                    } else {
+                        hamburger.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                    }
                 });
             });
 
